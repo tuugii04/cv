@@ -1,43 +1,259 @@
 <!DOCTYPE html>
 <html lang="mn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
   <title>Миний CV</title>
-  <link rel="stylesheet" href="style.css">
+  
+  <!-- Favicon нэмэх -->
+  <link rel="icon" href="path_to_your_icon.ico" type="image/x-icon" />
+
+  <!-- Font Awesome холбоос -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 20px;
+        color: var(--text-dark);
+        background: linear-gradient(45deg, #3498db, #9b59b6, #1abc9c);
+        background-size: 400% 400%;
+        animation: gradientShift 6s ease infinite;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    h2, h3 {
+        color: var(--primary);
+        transition: color 0.3s ease;
+        animation: slideIn 1s ease-out;
+    }
+    
+    .profile, .section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        max-width: 900px;
+        padding: 20px;
+        background: linear-gradient(135deg, #3498db, #1abc9c);
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: background 0.3s ease, transform 0.5s ease;
+        margin: 10px;
+    }
+    
+    .profile img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 20px;
+    }
+    
+    .section {
+        background: linear-gradient(135deg, #326f73, #f39c12);
+        margin-bottom: 20px;
+        border-radius: 16px;
+    }
+    
+    .section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    a {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 16px;
+        background: var(--primary);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: background 0.3s ease, transform 0.2s, box-shadow 0.3s ease;
+    }
+    
+    a:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .top-controls {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--primary);
+        color: white;
+        padding: 10px 18px;
+        border-radius: 25px;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        animation: fadeInTopControls 1s ease-out;
+    }
+    
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes slideIn {
+        0% { transform: translateX(-50px); opacity: 0; }
+        100% { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes fadeInTopControls {
+        0% { opacity: 0; transform: translateY(-20px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .container .profile, .container .section {
+        width: 100%;
+        max-width: 100%;
+    }
+  </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Таны Нэр</h1>
+  <div class="top-controls">
+    <!-- Dark Mode Toggle -->
+    <label>
+      🌙 Dark Mode
+      <input type="checkbox" id="darkToggle" onchange="toggleDarkMode()" />
+    </label>
+    <!-- Admin Link with Font Awesome Icon -->
+    <a href="login.html" class="admin-link"><i class="fas fa-cogs"></i> Admin</a>
+  </div>
 
-    <div class="section contact">
-      <h2>Холбоо барих</h2>
-      <p>Имэйл: taniinerd@gmail.com</p>
-      <p>Утас: +976 99112233</p>
-      <p>Хаяг: Улаанбаатар хот, Монгол улс</p>
-    </div>
+  <h2>Миний CV</h2>
 
-    <div class="section education">
-      <h2>Боловсрол</h2>
-      <p><strong>МУИС - Компьютерийн ухаан</strong></p>
-      <p>2018 - 2022</p>
-    </div>
-
-    <div class="section experience">
-      <h2>Ажлын туршлага</h2>
-      <p><strong>Програм хангамжийн инженер - ABC компани</strong></p>
-      <p>2022 - Одоог хүртэл</p>
-      <p>Вэб хөгжүүлэлт, системийн интеграци дээр ажилласан.</p>
-    </div>
-
-    <div class="section skills">
-      <h2>Ур чадвар</h2>
-      <ul>
-        <li>HTML, CSS, JavaScript</li>
-        <li>Python, Java</li>
-        <li>Git, GitHub ашиглалт</li>
-      </ul>
+  <div class="profile">
+    <img id="cv-photo" src="profile.png" alt="Зураг" />
+    <div>
+      <p><strong>Нэр:</strong> <span id="cv-name"></span></p>
+      <p><strong>Мэргэжил:</strong> <span id="cv-job"></span></p>
+      <p><strong>Email:</strong> <span id="cv-email"></span></p>
+      <p><strong>Утас:</strong> <span id="cv-phone"></span></p>
     </div>
   </div>
+
+  <div class="section"><h3>Өөрийн Тухай</h3><p id="cv-about"></p></div>
+  <div class="section"><h3>Туршлага</h3><p id="cv-experience"></p></div>
+  <div class="section"><h3>Боловсрол</h3><p id="cv-education"></p></div>
+  
+  <div class="section"><h3>Ур Чадвар</h3><canvas id="skillsChart"></canvas></div>
+  <div class="section"><h3>Хэлний Чадвар</h3><canvas id="languagesChart"></canvas></div>
+
+  <script>
+    function toggleDarkMode() {
+      const isDark = document.getElementById("darkToggle").checked;
+      document.body.classList.toggle("dark-mode", isDark);
+      localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+    }
+
+    window.addEventListener("load", () => {
+      const darkMode = localStorage.getItem("darkMode");
+      if (darkMode === "enabled") {
+        document.body.classList.add("dark-mode");
+        document.getElementById("darkToggle").checked = true;
+      }
+
+      const saved = JSON.parse(localStorage.getItem("cvData"));
+      if (saved) {
+        document.getElementById("cv-name").textContent = saved.name || "";
+        document.getElementById("cv-job").textContent = saved.job || "";
+        document.getElementById("cv-email").textContent = saved.email || "";
+        document.getElementById("cv-phone").textContent = saved.phone || "";
+        document.getElementById("cv-about").textContent = saved.about || "";
+        document.getElementById("cv-experience").textContent = saved.experience || "";
+        document.getElementById("cv-education").textContent = saved.education || "";
+        
+
+        if (saved.skillsChartData) {
+          const ctx = document.getElementById('skillsChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+              labels: saved.skillsChartData.labels || [],
+              datasets: [{
+                data: saved.skillsChartData.values || [],
+                backgroundColor: ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6', '#1abc9c'],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              cutout: '80%',
+              plugins: {
+                legend: {
+                  position: 'bottom',
+                  labels: {
+                    font: {
+                      size: 10,
+                      family: 'Arial'
+                    }
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function (tooltipItem) {
+                      return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+
+        const languagesSkills = JSON.parse(localStorage.getItem('languagesSkills'));
+        if (languagesSkills) {
+          const langCtx = document.getElementById('languagesChart').getContext('2d');
+          new Chart(langCtx, {
+            type: 'bar',
+            data: {
+              labels: languagesSkills.labels || [],
+              datasets: [{
+                label: 'Хэлний Чадвар',
+                data: languagesSkills.values || [],
+                backgroundColor: ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6', '#1abc9c'],
+                borderColor: '#991D65FF',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                x: {
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            }
+          });
+        }
+      }
+    });
+  </script>
 </body>
 </html>

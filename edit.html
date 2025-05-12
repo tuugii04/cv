@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <title>CV Засварлах</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      background: #f4f7f6;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      color: #3498db;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+      transition: border 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .skill-group, .language-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .skill-group input, .language-group input {
+      width: 48%;
+    }
+
+    .add-button {
+      background-color: #2ecc71;
+    }
+
+    .add-button:hover {
+      background-color: #27ae60;
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+    }
+
+    /* Гоёмсог анимаци */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-section {
+      animation: fadeIn 0.5s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <h2>CV Засварлах</h2>
+
+  <div class="form-section">
+    <label for="name">Нэр:</label>
+    <input id="name" type="text">
+
+    <label for="job">Мэргэжил:</label>
+    <input id="job" type="text">
+
+    <label for="email">Email:</label>
+    <input id="email" type="email">
+
+    <label for="phone">Утас:</label>
+    <input id="phone" type="text">
+
+    <label for="about">Өөрийн тухай:</label>
+    <textarea id="about"></textarea>
+
+    <label for="experience">Туршлага:</label>
+    <textarea id="experience"></textarea>
+
+    <label for="education">Боловсрол:</label>
+    <textarea id="education"></textarea>
+  </div>
+
+  <div class="form-section">
+    <label for="languages">Хэлний чадвар:</label>
+    <div id="languages-container"></div>
+    <button class="add-button" onclick="addLanguage()">+ Хэлний чадвар нэмэх</button>
+  </div>
+
+  <div class="form-section">
+    <h3>Ур чадвар</h3>
+    <div id="skills-container"></div>
+    <button class="add-button" onclick="addSkill()">+ Ур чадвар нэмэх</button>
+  </div>
+
+  <div class="button-container">
+    <button onclick="saveCV()">Хадгалах</button>
+  </div>
+
+  <script>
+    let skillInputs = [];
+    let languageInputs = [];
+
+    function addSkill() {
+      const container = document.getElementById("skills-container");
+
+      const div = document.createElement("div");
+      div.classList.add("skill-group");
+
+      const nameInput = document.createElement("input");
+      nameInput.placeholder = "Ур чадвар (ж.н. HTML)";
+      const valueInput = document.createElement("input");
+      valueInput.type = "number";
+      valueInput.placeholder = "Хувь (ж.н. 90)";
+      valueInput.min = 0;
+      valueInput.max = 100;
+
+      div.appendChild(nameInput);
+      div.appendChild(valueInput);
+      container.appendChild(div);
+
+      skillInputs.push({ nameInput, valueInput });
+    }
+
+    function addLanguage() {
+      const container = document.getElementById("languages-container");
+
+      const div = document.createElement("div");
+      div.classList.add("language-group");
+
+      const languageInput = document.createElement("input");
+      languageInput.placeholder = "Хэл (ж.н. Англи)";
+      const levelInput = document.createElement("input");
+      levelInput.type = "number";
+      levelInput.placeholder = "Хувь (ж.н. 80)";
+      levelInput.min = 0;
+      levelInput.max = 100;
+
+      div.appendChild(languageInput);
+      div.appendChild(levelInput);
+      container.appendChild(div);
+
+      languageInputs.push({ languageInput, levelInput });
+    }
+
+    function saveCV() {
+      const skillsChartData = {
+        labels: [],
+        values: []
+      };
+
+      skillInputs.forEach(({ nameInput, valueInput }) => {
+        const name = nameInput.value.trim();
+        const value = parseInt(valueInput.value);
+        if (name && !isNaN(value)) {
+          skillsChartData.labels.push(name);
+          skillsChartData.values.push(value);
+        }
+      });
+
+      const languagesSkills = {
+        labels: [],
+        values: []
+      };
+
+      languageInputs.forEach(({ languageInput, levelInput }) => {
+        const language = languageInput.value.trim();
+        const level = parseInt(levelInput.value);
+        if (language && !isNaN(level)) {
+          languagesSkills.labels.push(language);
+          languagesSkills.values.push(level);
+        }
+      });
+
+      const data = {
+        name: document.getElementById("name").value,
+        job: document.getElementById("job").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        about: document.getElementById("about").value,
+        experience: document.getElementById("experience").value,
+        education: document.getElementById("education").value,
+        languagesSkills,
+        skillsChartData
+      };
+
+      localStorage.setItem("cvData", JSON.stringify(data));
+      localStorage.setItem("languagesSkills", JSON.stringify(languagesSkills));
+      alert("CV хадгалагдлаа!");
+      window.location.href = "index.html";
+    }
+
+    window.onload = function () {
+      const saved = JSON.parse(localStorage.getItem("cvData"));
+      if (!saved) return;
+
+      document.getElementById("name").value = saved.name || "";
+      document.getElementById("job").value = saved.job || "";
+      document.getElementById("email").value = saved.email || "";
+      document.getElementById("phone").value = saved.phone || "";
+      document.getElementById("about").value = saved.about || "";
+      document.getElementById("experience").value = saved.experience || "";
+      document.getElementById("education").value = saved.education || "";
+
+      if (saved.languagesSkills) {
+        saved.languagesSkills.labels.forEach((label, i) => {
+          addLanguage();
+          languageInputs[i].languageInput.value = label;
+          languageInputs[i].levelInput.value = saved.languagesSkills.values[i];
+        });
+      }
+
+      if (saved.skillsChartData) {
+        saved.skillsChartData.labels.forEach((label, i) => {
+          addSkill();
+          skillInputs[i].nameInput.value = label;
+          skillInputs[i].valueInput.value = saved.skillsChartData.values[i];
+        });
+      }
+    };
+  </script>
+</body>
+</html>
